@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartPlace — Campus Placement Platform</title>
+  <meta name="description" content="AI-powered campus placement platform for smarter student-company matching, filtering, and coordination." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">SP</div>
+      <div class="logo-text">
+        <span class="logo-title">SmartPlace</span>
+        <span class="logo-sub">Placement Cell</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" onclick="showPage('dashboard', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="students" onclick="showPage('students', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Student Pool
+        <span class="nav-badge">248</span>
+      </a>
+      <a href="#" class="nav-item" data-page="companies" onclick="showPage('companies', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Companies
+      </a>
+      <a href="#" class="nav-item" data-page="scheduler" onclick="showPage('scheduler', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Scheduler
+      </a>
+      <a href="#" class="nav-item" data-page="analytics" onclick="showPage('analytics', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="nav-item" data-page="guidance" onclick="showPage('guidance', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Student Guidance
+        <span class="nav-badge" style="background:#d97706">NEW</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-avatar">VC</div>
+      <div class="user-info">
+        <span class="user-name">Vikram C.</span>
+        <span class="user-role">Placement Officer</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="page-title">Dashboard</h1>
+        <span class="page-subtitle" id="page-subtitle">Welcome back, here's what's happening today</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search students, companies…" id="global-search" />
+        </div>
+        <button class="comp-btn" onclick="toggleDarkMode()">🌓 Theme</button>
+        <div class="notif-btn" id="notif-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD PAGE ============ -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card" style="--accent:#7c3aed">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" data-count="248">0</span>
+            <span class="stat-label">Total Students</span>
+          </div>
+          <div class="stat-trend up">+12 this week</div>
+        </div>
+        <div class="stat-card" style="--accent:#059669">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" data-count="87">0</span>
+            <span class="stat-label">Shortlisted</span>
+          </div>
+          <div class="stat-trend up">35.1% rate</div>
+        </div>
+        <div class="stat-card" style="--accent:#d97706">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" data-count="23">0</span>
+            <span class="stat-label">Interviews Scheduled</span>
+          </div>
+          <div class="stat-trend up">This week</div>
+        </div>
+        <div class="stat-card" style="--accent:#e11d48">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" data-count="14">0</span>
+            <span class="stat-label">Active Companies</span>
+          </div>
+          <div class="stat-trend up">3 new this month</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Recent Activity -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2>Recent Activity</h2>
+            <span class="badge-pill">Live</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div class="activity-content">
+                <strong>12 students shortlisted</strong> for Google SWE Role
+                <span class="activity-time">2 min ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot blue"></div>
+              <div class="activity-content">
+                <strong>Microsoft Drive</strong> interview slots confirmed
+                <span class="activity-time">18 min ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot yellow"></div>
+              <div class="activity-content">
+                <strong>Arjun Sharma</strong> updated profile — 3 new skills
+                <span class="activity-time">45 min ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot red"></div>
+              <div class="activity-content">
+                <strong>5 students rejected</strong> from Infosys (CGPA < 6.5)
+                <span class="activity-time">1 hr ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot purple"></div>
+              <div class="activity-content">
+                <strong>Amazon</strong> added new job posting — Data Engineer
+                <span class="activity-time">3 hr ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Actions -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h2>Pending Actions</h2>
+            <span class="badge-pill warning">5 urgent</span>
+          </div>
+          <div class="action-list">
+            <div class="action-item urgent">
+              <div class="action-icon">⚠️</div>
+              <div class="action-text">
+                <strong>Filter students for Wipro Drive</strong>
+                <span>Deadline: Tomorrow 9 AM</span>
+              </div>
+              <button class="action-btn" onclick="showPage('students', document.querySelector('[data-page=students]'))">Go →</button>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">📅</div>
+              <div class="action-text">
+                <strong>Confirm 8 interview slots</strong>
+                <span>Deloitte — April 17</span>
+              </div>
+              <button class="action-btn" onclick="showPage('scheduler', document.querySelector('[data-page=scheduler]'))">Go →</button>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">📋</div>
+              <div class="action-text">
+                <strong>Review 34 new applications</strong>
+                <span>Oracle Product Role</span>
+              </div>
+              <button class="action-btn" onclick="showPage('students', document.querySelector('[data-page=students]'))">Go →</button>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">📊</div>
+              <div class="action-text">
+                <strong>Export placement report</strong>
+                <span>Q1 2025 summary</span>
+              </div>
+              <button class="action-btn">Export</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placement Progress -->
+        <div class="glass-card full-width">
+          <div class="card-header">
+            <h2>Branch-wise Placement Progress</h2>
+            <button class="comp-btn primary" onclick="autoShortlistNow()">Auto Shortlist AI</button>
+          </div>
+          <div class="action-item" style="margin-bottom:14px">
+            <div class="action-icon">👨‍💼</div>
+            <div class="action-text">
+              <strong>Placement Officer AI Panel</strong>
+              <span>Eligible students count (current company filter): <b id="eligible-student-count">0</b></span>
+            </div>
+          </div>
+          <div class="branch-bars">
+            <div class="branch-bar-item">
+              <span class="branch-name">CSE</span>
+              <div class="bar-track"><div class="bar-fill" style="width:78%;--c:#7c3aed"></div></div>
+              <span class="branch-pct">78%</span>
+            </div>
+            <div class="branch-bar-item">
+              <span class="branch-name">ECE</span>
+              <div class="bar-track"><div class="bar-fill" style="width:62%;--c:#059669"></div></div>
+              <span class="branch-pct">62%</span>
+            </div>
+            <div class="branch-bar-item">
+              <span class="branch-name">IT</span>
+              <div class="bar-track"><div class="bar-fill" style="width:71%;--c:#2563eb"></div></div>
+              <span class="branch-pct">71%</span>
+            </div>
+            <div class="branch-bar-item">
+              <span class="branch-name">Mech</span>
+              <div class="bar-track"><div class="bar-fill" style="width:41%;--c:#d97706"></div></div>
+              <span class="branch-pct">41%</span>
+            </div>
+            <div class="branch-bar-item">
+              <span class="branch-name">Civil</span>
+              <div class="bar-track"><div class="bar-fill" style="width:29%;--c:#e11d48"></div></div>
+              <span class="branch-pct">29%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STUDENT POOL PAGE ============ -->
+    <section class="page" id="page-students">
+      <div class="students-layout">
+
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar" id="filter-sidebar">
+          <div class="filter-header">
+            <h3>🔍 Smart Filters</h3>
+            <button class="reset-btn" onclick="resetFilters()">Reset All</button>
+          </div>
+
+          <div class="filter-results-pill">
+            <span id="filter-count">248</span> students match
+          </div>
+
+          <!-- Company Filter -->
+          <div class="filter-group">
+            <label class="filter-label">🏢 Filter for Company</label>
+            <select class="filter-select" id="f-company" onchange="applyFilters()">
+              <option value="">All Companies</option>
+              <option value="google">Google — SWE</option>
+              <option value="microsoft">Microsoft — Azure Dev</option>
+              <option value="amazon">Amazon — SDE II</option>
+              <option value="wipro">Wipro — Systems</option>
+              <option value="deloitte">Deloitte — Analyst</option>
+            </select>
+          </div>
+
+          <!-- CGPA -->
+          <div class="filter-group">
+            <label class="filter-label">🎓 CGPA Range</label>
+            <div class="range-row">
+              <span id="cgpa-min-val">5.0</span>
+              <div class="dual-range">
+                <input type="range" id="cgpa-min" min="0" max="10" step="0.1" value="5.0" oninput="updateRange('cgpa')" onchange="applyFilters()">
+                <input type="range" id="cgpa-max" min="0" max="10" step="0.1" value="10" oninput="updateRange('cgpa')" onchange="applyFilters()">
+              </div>
+              <span id="cgpa-max-val">10</span>
+            </div>
+          </div>
+
+          <!-- AI Fit Score -->
+          <div class="filter-group">
+            <label class="filter-label">🤖 Min AI Fit Score</label>
+            <div class="range-row">
+              <div class="dual-range single">
+                <input type="range" id="fit-score" min="0" max="100" step="5" value="0" oninput="document.getElementById('fit-val').textContent=this.value+'%'" onchange="applyFilters()">
+              </div>
+              <span id="fit-val" class="score-val">0%</span>
+            </div>
+          </div>
+
+          <!-- Branch -->
+          <div class="filter-group">
+            <label class="filter-label">📚 Branch / Department</label>
+            <div class="checkbox-group">
+              <label class="check-item"><input type="checkbox" value="CSE" onchange="applyFilters()" class="branch-cb" checked> CSE <span class="check-count">82</span></label>
+              <label class="check-item"><input type="checkbox" value="IT" onchange="applyFilters()" class="branch-cb" checked> IT <span class="check-count">54</span></label>
+              <label class="check-item"><input type="checkbox" value="ECE" onchange="applyFilters()" class="branch-cb" checked> ECE <span class="check-count">61</span></label>
+              <label class="check-item"><input type="checkbox" value="Mech" onchange="applyFilters()" class="branch-cb" checked> Mech <span class="check-count">29</span></label>
+              <label class="check-item"><input type="checkbox" value="Civil" onchange="applyFilters()" class="branch-cb" checked> Civil <span class="check-count">22</span></label>
+            </div>
+          </div>
+
+          <!-- Year -->
+          <div class="filter-group">
+            <label class="filter-label">📅 Year of Study</label>
+            <div class="pill-group" id="year-pills">
+              <span class="pill active" data-val="all" onclick="toggleYearPill(this)">All</span>
+              <span class="pill" data-val="2" onclick="toggleYearPill(this)">2nd</span>
+              <span class="pill" data-val="3" onclick="toggleYearPill(this)">3rd</span>
+              <span class="pill" data-val="4" onclick="toggleYearPill(this)">Final</span>
+            </div>
+          </div>
+
+          <!-- Backlogs -->
+          <div class="filter-group">
+            <label class="filter-label">⚠️ Active Backlogs</label>
+            <div class="pill-group">
+              <span class="pill active" data-val="any" onclick="toggleBacklog(this)">Any</span>
+              <span class="pill" data-val="0" onclick="toggleBacklog(this)">Zero</span>
+              <span class="pill" data-val="1" onclick="toggleBacklog(this)">≤ 1</span>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="filter-group">
+            <label class="filter-label">💻 Technical Skills (must have)</label>
+            <div class="skill-input-wrap">
+              <input type="text" id="skill-input" placeholder="Type skill + Enter" onkeydown="addSkillFilter(event)" />
+            </div>
+            <div class="skill-tags" id="skill-tags"></div>
+          </div>
+
+          <!-- DSA Rating -->
+          <div class="filter-group">
+            <label class="filter-label">⚡ DSA Rating (LeetCode)</label>
+            <div class="range-row">
+              <div class="dual-range single">
+                <input type="range" id="dsa-rating" min="0" max="3000" step="50" value="0" oninput="document.getElementById('dsa-val').textContent=this.value>0?'≥'+this.value:'Any'" onchange="applyFilters()">
+              </div>
+              <span id="dsa-val" class="score-val">Any</span>
+            </div>
+          </div>
+
+          <!-- Internship -->
+          <div class="filter-group">
+            <label class="filter-label">🏢 Internship Experience</label>
+            <div class="pill-group">
+              <span class="pill active" data-val="any" onclick="toggleInternship(this)">Any</span>
+              <span class="pill" data-val="yes" onclick="toggleInternship(this)">Has Internship</span>
+              <span class="pill" data-val="no" onclick="toggleInternship(this)">None</span>
+            </div>
+          </div>
+
+          <!-- Aptitude Score -->
+          <div class="filter-group">
+            <label class="filter-label">🧠 Aptitude Score</label>
+            <div class="range-row">
+              <div class="dual-range single">
+                <input type="range" id="aptitude" min="0" max="100" step="5" value="0" oninput="document.getElementById('apt-val').textContent=this.value+'%'" onchange="applyFilters()">
+              </div>
+              <span id="apt-val" class="score-val">0%</span>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div class="filter-group">
+            <label class="filter-label">🚀 Min Projects</label>
+            <div class="pill-group">
+              <span class="pill active" data-val="0" onclick="toggleProjects(this)">Any</span>
+              <span class="pill" data-val="1" onclick="toggleProjects(this)">≥ 1</span>
+              <span class="pill" data-val="2" onclick="toggleProjects(this)">≥ 2</span>
+              <span class="pill" data-val="3" onclick="toggleProjects(this)">≥ 3</span>
+            </div>
+          </div>
+
+          <!-- Open Source -->
+          <div class="filter-group">
+            <label class="filter-label">🌐 GitHub Contributions</label>
+            <div class="toggle-switch-wrap">
+              <label class="toggle-switch">
+                <input type="checkbox" id="f-oss" onchange="applyFilters()">
+                <span class="toggle-slider"></span>
+              </label>
+              <span>Must have GitHub activity</span>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="filter-group">
+            <label class="filter-label">🏅 Certifications</label>
+            <div class="toggle-switch-wrap">
+              <label class="toggle-switch">
+                <input type="checkbox" id="f-cert" onchange="applyFilters()">
+                <span class="toggle-slider"></span>
+              </label>
+              <span>Must have certifications</span>
+            </div>
+          </div>
+
+          <!-- Hackathons -->
+          <div class="filter-group">
+            <label class="filter-label">🏆 Hackathon Winner</label>
+            <div class="toggle-switch-wrap">
+              <label class="toggle-switch">
+                <input type="checkbox" id="f-hackathon" onchange="applyFilters()">
+                <span class="toggle-slider"></span>
+              </label>
+              <span>Has won hackathon</span>
+            </div>
+          </div>
+
+          <button class="apply-filter-btn" onclick="applyFilters()">Apply Filters</button>
+        </aside>
+
+        <!-- Student List -->
+        <div class="student-list-panel">
+          <div class="list-controls">
+            <div class="list-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search by name or roll no…" id="student-search" oninput="applyFilters()" />
+            </div>
+            <div class="sort-controls">
+              <select class="filter-select" id="sort-by" onchange="applyFilters()">
+                <option value="fit">Sort: AI Fit Score</option>
+                <option value="cgpa">Sort: CGPA</option>
+                <option value="name">Sort: Name</option>
+                <option value="dsa">Sort: DSA Rating</option>
+              </select>
+            </div>
+            <div class="bulk-actions" id="bulk-actions" style="display:none">
+              <button class="bulk-btn shortlist" onclick="bulkAction('shortlist')">✅ Shortlist Selected</button>
+              <button class="bulk-btn reject" onclick="bulkAction('reject')">❌ Reject Selected</button>
+              <button class="bulk-btn export" onclick="bulkAction('export')">📥 Export CSV</button>
+            </div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🏢 Recruiter Ranked Insights</h2>
+              <span class="badge-pill">Top AI Ranked</span>
+            </div>
+            <div id="recruiter-insights"></div>
+          </div>
+
+          <div class="select-all-bar" id="select-all-bar" style="display:none">
+            <label class="check-item"><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> Select all <span id="select-all-label">visible students</span></label>
+            <span id="selected-count">0 selected</span>
+          </div>
+
+          <div class="student-table-wrap">
+            <table class="student-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="header-cb" onchange="toggleSelectAll(this)"></th>
+                  <th>Student</th>
+                  <th>Branch / Year</th>
+                  <th>CGPA</th>
+                  <th>AI Fit</th>
+                  <th>Skills</th>
+                  <th>DSA</th>
+                  <th>Internship</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="student-tbody">
+              </tbody>
+            </table>
+            <div class="empty-state" id="empty-state" style="display:none">
+              <div class="empty-icon">🔍</div>
+              <p>No students match the current filters.</p>
+              <button onclick="resetFilters()">Clear Filters</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPANIES PAGE ============ -->
+    <section class="page" id="page-companies">
+      <div class="companies-grid">
+        <div class="company-card" style="--accent:#4285f4">
+          <div class="company-logo google">G</div>
+          <div class="company-info">
+            <h3>Google</h3>
+            <p>Software Engineer — L3</p>
+            <div class="company-tags">
+              <span class="tag">DSA</span><span class="tag">System Design</span><span class="tag">Python</span>
+            </div>
+          </div>
+          <div class="company-meta">
+            <div class="meta-item"><span>Package</span><strong>₹ 28 LPA</strong></div>
+            <div class="meta-item"><span>Eligible</span><strong>CGPA ≥ 8.0</strong></div>
+            <div class="meta-item"><span>Applied</span><strong>54</strong></div>
+            <div class="meta-item"><span>Deadline</span><strong>Apr 20</strong></div>
+          </div>
+          <div class="company-actions">
+            <button class="comp-btn primary" onclick="showPage('students', document.querySelector('[data-page=students]'))">Filter Students</button>
+            <button class="comp-btn">View Pipeline</button>
+          </div>
+        </div>
+
+        <div class="company-card" style="--accent:#00a4ef">
+          <div class="company-logo microsoft">M</div>
+          <div class="company-info">
+            <h3>Microsoft</h3>
+            <p>Azure Cloud Developer</p>
+            <div class="company-tags">
+              <span class="tag">Cloud</span><span class="tag">C#</span><span class="tag">Azure</span>
+            </div>
+          </div>
+          <div class="company-meta">
+            <div class="meta-item"><span>Package</span><strong>₹ 24 LPA</strong></div>
+            <div class="meta-item"><span>Eligible</span><strong>CGPA ≥ 7.5</strong></div>
+            <div class="meta-item"><span>Applied</span><strong>38</strong></div>
+            <div class="meta-item"><span>Deadline</span><strong>Apr 17</strong></div>
+          </div>
+          <div class="company-actions">
+            <button class="comp-btn primary" onclick="showPage('students', document.querySelector('[data-page=students]'))">Filter Students</button>
+            <button class="comp-btn">View Pipeline</button>
+          </div>
+        </div>
+
+        <div class="company-card" style="--accent:#ff9900">
+          <div class="company-logo amazon">A</div>
+          <div class="company-info">
+            <h3>Amazon</h3>
+            <p>SDE II — Data Engineer</p>
+            <div class="company-tags">
+              <span class="tag">AWS</span><span class="tag">Python</span><span class="tag">Spark</span>
+            </div>
+          </div>
+          <div class="company-meta">
+            <div class="meta-item"><span>Package</span><strong>₹ 32 LPA</strong></div>
+            <div class="meta-item"><span>Eligible</span><strong>CGPA ≥ 7.0</strong></div>
+            <div class="meta-item"><span>Applied</span><strong>71</strong></div>
+            <div class="meta-item"><span>Deadline</span><strong>Apr 22</strong></div>
+          </div>
+          <div class="company-actions">
+            <button class="comp-btn primary" onclick="showPage('students', document.querySelector('[data-page=students]'))">Filter Students</button>
+            <button class="comp-btn">View Pipeline</button>
+          </div>
+        </div>
+
+        <div class="company-card" style="--accent:#7c3aed">
+          <div class="company-logo wipro">W</div>
+          <div class="company-info">
+            <h3>Wipro</h3>
+            <p>Systems Engineer</p>
+            <div class="company-tags">
+              <span class="tag">Java</span><span class="tag">SQL</span><span class="tag">OOPS</span>
+            </div>
+          </div>
+          <div class="company-meta">
+            <div class="meta-item"><span>Package</span><strong>₹ 6.5 LPA</strong></div>
+            <div class="meta-item"><span>Eligible</span><strong>CGPA ≥ 6.0</strong></div>
+            <div class="meta-item"><span>Applied</span><strong>112</strong></div>
+            <div class="meta-item"><span>Deadline</span><strong>Apr 15</strong></div>
+          </div>
+          <div class="company-actions">
+            <button class="comp-btn primary" onclick="showPage('students', document.querySelector('[data-page=students]'))">Filter Students</button>
+            <button class="comp-btn">View Pipeline</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCHEDULER PAGE ============ -->
+    <section class="page" id="page-scheduler">
+      <div class="scheduler-layout">
+        <div class="glass-card">
+          <div class="card-header">
+            <h2>📅 Upcoming Drives</h2>
+            <button class="action-btn" onclick="autoScheduleInterviews()">Auto Schedule Slots</button>
+          </div>
+          <div id="auto-scheduler-output" class="action-item" style="margin-bottom:14px">
+            <div class="action-icon">⚡</div>
+            <div class="action-text"><strong>Auto-scheduler</strong><span>Generate conflict-free interview slots instantly.</span></div>
+          </div>
+          <div class="schedule-list">
+            <div class="schedule-item google-bg">
+              <div class="schedule-time">
+                <span class="day">Apr 18</span>
+                <span class="time">9:00 AM</span>
+              </div>
+              <div class="schedule-info">
+                <strong>Google — SWE Interview Round 1</strong>
+                <span>12 students scheduled • Hall A</span>
+                <div class="schedule-tags"><span class="tag green">Confirmed</span></div>
+              </div>
+              <button class="comp-btn" onclick="">View Slots</button>
+            </div>
+            <div class="schedule-item microsoft-bg">
+              <div class="schedule-time">
+                <span class="day">Apr 17</span>
+                <span class="time">10:30 AM</span>
+              </div>
+              <div class="schedule-info">
+                <strong>Microsoft — Online Assessment</strong>
+                <span>38 students • Lab 3 & 4</span>
+                <div class="schedule-tags"><span class="tag yellow">Pending Confirm</span></div>
+              </div>
+              <button class="comp-btn">View Slots</button>
+            </div>
+            <div class="schedule-item amazon-bg">
+              <div class="schedule-time">
+                <span class="day">Apr 22</span>
+                <span class="time">2:00 PM</span>
+              </div>
+              <div class="schedule-info">
+                <strong>Amazon — Virtual Interview</strong>
+                <span>8 students • Teams Link</span>
+                <div class="schedule-tags"><span class="tag green">Confirmed</span></div>
+              </div>
+              <button class="comp-btn">View Slots</button>
+            </div>
+            <div class="schedule-item wipro-bg">
+              <div class="schedule-time">
+                <span class="day">Apr 15</span>
+                <span class="time">9:00 AM</span>
+              </div>
+              <div class="schedule-info">
+                <strong>Wipro — Group Discussion + PI</strong>
+                <span>45 students • Auditorium</span>
+                <div class="schedule-tags"><span class="tag red">Conflict Detected</span></div>
+              </div>
+              <button class="comp-btn">Resolve</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-header"><h2>⚡ Conflict Alerts</h2></div>
+          <div class="conflict-list">
+            <div class="conflict-item">
+              <div class="conflict-icon">⚠️</div>
+              <div class="conflict-text">
+                <strong>3 students</strong> have clashing slots on Apr 15:<br/>
+                Rahul M., Priya K., Aditya S. — Wipro & Deloitte overlap
+              </div>
+              <button class="comp-btn primary">Resolve</button>
+            </div>
+            <div class="conflict-item">
+              <div class="conflict-icon">ℹ️</div>
+              <div class="conflict-text">
+                Hall A is double-booked for Apr 18 9AM — Google & TCS
+              </div>
+              <button class="comp-btn primary">Reassign Room</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ANALYTICS PAGE ============ -->
+    <section class="page" id="page-analytics">
+      <div class="analytics-grid">
+        <div class="glass-card full-width">
+          <div class="card-header"><h2>📊 Placement Funnel</h2></div>
+          <div class="funnel">
+            <div class="funnel-step" style="--w:100%;--c:#7c3aed">
+              <div class="funnel-bar"><div class="funnel-fill"></div></div>
+              <div class="funnel-label"><strong>248</strong> Registered</div>
+            </div>
+            <div class="funnel-step" style="--w:72%;--c:#2563eb">
+              <div class="funnel-bar"><div class="funnel-fill"></div></div>
+              <div class="funnel-label"><strong>179</strong> Applied</div>
+            </div>
+            <div class="funnel-step" style="--w:48%;--c:#059669">
+              <div class="funnel-bar"><div class="funnel-fill"></div></div>
+              <div class="funnel-label"><strong>87</strong> Shortlisted</div>
+            </div>
+            <div class="funnel-step" style="--w:26%;--c:#d97706">
+              <div class="funnel-bar"><div class="funnel-fill"></div></div>
+              <div class="funnel-label"><strong>41</strong> Interviewed</div>
+            </div>
+            <div class="funnel-step" style="--w:12%;--c:#e11d48">
+              <div class="funnel-bar"><div class="funnel-fill"></div></div>
+              <div class="funnel-label"><strong>23</strong> Offers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-header"><h2>🏅 Top Skills in Demand</h2></div>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><span>Python</span><div class="bar-track"><div class="bar-fill" style="width:89%;--c:#7c3aed"></div></div><span>89%</span></div>
+            <div class="skill-bar-item"><span>React</span><div class="bar-track"><div class="bar-fill" style="width:74%;--c:#2563eb"></div></div><span>74%</span></div>
+            <div class="skill-bar-item"><span>SQL</span><div class="bar-track"><div class="bar-fill" style="width:68%;--c:#059669"></div></div><span>68%</span></div>
+            <div class="skill-bar-item"><span>DSA</span><div class="bar-track"><div class="bar-fill" style="width:91%;--c:#d97706"></div></div><span>91%</span></div>
+            <div class="skill-bar-item"><span>Cloud</span><div class="bar-track"><div class="bar-fill" style="width:55%;--c:#e11d48"></div></div><span>55%</span></div>
+            <div class="skill-bar-item"><span>ML</span><div class="bar-track"><div class="bar-fill" style="width:43%;--c:#0891b2"></div></div><span>43%</span></div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-header"><h2>📈 Avg Package by Branch</h2></div>
+          <div class="package-bars">
+            <div class="branch-bar-item"><span class="branch-name">CSE</span><div class="bar-track"><div class="bar-fill" style="width:88%;--c:#7c3aed"></div></div><span>₹18.4L</span></div>
+            <div class="branch-bar-item"><span class="branch-name">IT</span><div class="bar-track"><div class="bar-fill" style="width:74%;--c:#2563eb"></div></div><span>₹15.6L</span></div>
+            <div class="branch-bar-item"><span class="branch-name">ECE</span><div class="bar-track"><div class="bar-fill" style="width:62%;--c:#059669"></div></div><span>₹13.1L</span></div>
+            <div class="branch-bar-item"><span class="branch-name">Mech</span><div class="bar-track"><div class="bar-fill" style="width:38%;--c:#d97706"></div></div><span>₹8.0L</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+    <!-- ============ STUDENT GUIDANCE PAGE ============ -->
+    <section class="page" id="page-guidance">
+      <div class="guidance-topbar">
+        <div class="guidance-selector">
+          <label>Viewing guidance for:</label>
+          <select id="guidance-student-select" onchange="renderGuidancePage(this.value)"></select>
+        </div>
+        <div class="guidance-badges" id="guidance-badges"></div>
+      </div>
+
+      <div class="guidance-layout">
+        <!-- LEFT -->
+        <div class="guidance-left">
+          <div class="glass-card" id="guidance-profile"></div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🏢 Company Fit Scores</h2>
+              <span class="badge-pill">Live AI</span>
+            </div>
+            <div id="guidance-company-scores"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="guidance-right">
+          <div class="glass-card">
+            <div class="card-header">
+              <h2>🔴 Skill Gap Analysis</h2>
+              <span class="badge-pill warning" id="gap-count-badge">Loading…</span>
+            </div>
+            <div id="guidance-gaps"></div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header"><h2>📚 Learning Path</h2></div>
+            <div id="guidance-courses"></div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header"><h2>📅 Weekly Study Plan</h2></div>
+            <div id="guidance-plan"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- Student Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="student-modal" onclick="event.stopPropagation()" id="student-modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+  <div id="app-loader" class="app-loader" style="display:none">
+    <div class="loader-card">
+      <div class="spinner"></div>
+      <span>Loading AI ranking + SQLite data...</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
